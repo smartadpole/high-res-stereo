@@ -18,3 +18,9 @@ mboutput/CrusadeP/*.pfm
 mboutput/CrusadeP/*.txt
 *.zip
 run.sh
+*result*
+*.onnx
+.idea/
+
+models/*
+
