@@ -109,4 +109,4 @@ class HSMNet(nn.Module):
             stacked = [pred3,pred4,pred5,pred6]   
             return stacked,entropy
         else:
-            return pred3,torch.squeeze(entropy)
+            return pred3,entropy[0]
