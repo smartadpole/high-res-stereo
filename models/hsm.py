@@ -9,6 +9,11 @@ from .submodule import *
 import pdb
 from models.utils import unet
 from matplotlib import pyplot as plt
+def abs(data):
+    neg = data * -1
+    ret = torch.max(data, neg)
+
+    return ret
 
 class HSMNet(nn.Module):
     def __init__(self, maxdisp,clean,level=1):
@@ -36,7 +41,6 @@ class HSMNet(nn.Module):
         self.disp_reg32 = disparityregression(self.maxdisp,32)
         self.disp_reg64 = disparityregression(self.maxdisp,64)
 
-   
 
     def feature_vol(self, refimg_fea, targetimg_fea,maxdisp, leftview=True):
         '''
@@ -49,9 +53,9 @@ class HSMNet(nn.Module):
             featb = targetimg_fea[:,:,:,:width-i]
             # concat
             if leftview:
-                cost[:, :refimg_fea.size()[1], i, :,i:]   = torch.abs(feata-featb)
+                cost[:, :refimg_fea.size()[1], i, :,i:]   = abs(feata-featb)
             else:
-                cost[:, :refimg_fea.size()[1], i, :,:width-i]   = torch.abs(featb-feata)
+                cost[:, :refimg_fea.size()[1], i, :,:width-i]   = abs(featb-feata)
         cost = cost.contiguous()
         return cost
 
